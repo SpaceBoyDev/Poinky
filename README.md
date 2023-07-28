@@ -1,2 +1,0 @@
-# Poinky
- Little Unity Project
