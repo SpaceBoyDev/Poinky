@@ -36,7 +36,7 @@ public class Rat : MonoBehaviour
             Move();
         }
 
-        if(transform.position.y < GameMaster.instance.get_cameraLimits().Bottom.position.y)
+        if(transform.position.y < GameMaster.Instance.get_cameraLimits().Bottom.position.y)
         {
             gameObject.SetActive(false);
         }
@@ -112,7 +112,7 @@ public class Rat : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-            GameMaster.instance.JumpUpdate(1);
+            GameMaster.Instance.JumpUpdate(1);
             gameObject.SetActive(false);
     }
 

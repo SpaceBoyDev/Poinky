@@ -20,7 +20,7 @@ public class CameraMovement : MonoBehaviour
     private void FollowPlayer()
     {
         transform.position = Vector3.MoveTowards(transform.position,
-            new Vector3(0, GameMaster.instance.highestY + offsetY,offsetZ), 
+            new Vector3(0, GameMaster.Instance.highestY + offsetY,offsetZ), 
             speed * Time.deltaTime);
     }
 

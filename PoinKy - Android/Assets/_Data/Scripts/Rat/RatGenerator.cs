@@ -27,7 +27,7 @@ public class RatGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (lastPosY < GameMaster.instance.get_cameraLimits().Top.position.y + offsetY)
+        if (lastPosY < GameMaster.Instance.get_cameraLimits().Top.position.y + offsetY)
         {
             SpawnRat();
         }

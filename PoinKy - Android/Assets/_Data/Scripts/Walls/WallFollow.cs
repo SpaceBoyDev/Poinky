@@ -9,6 +9,6 @@ public class WallFollow : MonoBehaviour
     /// </summary>
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, GameMaster.instance.highestY, transform.position.z);
+        transform.position = new Vector3(transform.position.x, GameMaster.Instance.highestY, transform.position.z);
     }
 }

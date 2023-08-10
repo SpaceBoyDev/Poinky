@@ -14,6 +14,8 @@ public class AnimationController : MonoBehaviour
 
     [SerializeField]
     private Transform sprite;
+    
+    
 
     public float rotateSpeed;
 
@@ -35,7 +37,7 @@ public class AnimationController : MonoBehaviour
     /// </summary>
     private void Animate()
     {
-        if(rb.velocity.x > 0)
+        if(rb.velocity.x > 0 && rb.velocity.y < -1)
         {
             sr.flipX = false;
             sr.sprite = coolCatSprites[1];

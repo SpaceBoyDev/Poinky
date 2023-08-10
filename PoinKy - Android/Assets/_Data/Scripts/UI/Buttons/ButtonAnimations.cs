@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,11 @@ public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExi
     IPointerUpHandler
 {
     [SerializeField] private GameObject parentMenu;
-    [SerializeField] private bool isCanvasWorld;
-    [SerializeField] private bool hasShadow;
 
-    [SerializeField] private Vector3 shadowPosition;
-    [SerializeField] private Vector3 shadowScale;
+    [Header("Button values")] 
+    [SerializeField] private bool isIndependentFromDeltaTime = true;
+
+    [SerializeField] private Ease easeType = Ease.Linear;
 
     [Header("Set alternative start values")]
     [SerializeField] private Vector3 setStartRotation;
@@ -36,6 +37,19 @@ public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] private Vector3 newPosition;
     [SerializeField] private Vector3 newScale; 
     [SerializeField] private Vector3 newRotation;
+    
+    [Header("Shadow Settings (currently unfinished)")]
+    [SerializeField] private bool isCanvasWorld;
+    [SerializeField] private bool hasShadow;
+
+    [SerializeField] private Vector3 shadowPosition;
+    [SerializeField] private Vector3 shadowScale;
+
+    private void Reset()
+    {
+        parentMenu = transform.parent.gameObject;
+    }
+
     private void Start()
     {
         transform.eulerAngles = setStartRotation;
@@ -45,7 +59,7 @@ public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExi
         startRotation = transform.eulerAngles;
         
         transform.DORotate(startRotation + newRotation, rotationDuration, RotateMode.Fast).SetLoops(-1, LoopType.Yoyo)
-            .SetRelative(false).SetEase(Ease.Linear);
+            .SetRelative(false).SetEase(easeType).SetUpdate(isIndependentFromDeltaTime);
 
         if (hasShadow) //not used for now
         {

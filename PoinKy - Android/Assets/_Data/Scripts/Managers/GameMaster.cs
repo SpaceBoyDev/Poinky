@@ -13,8 +13,11 @@ public struct cameraLimits
 
 public class GameMaster : MonoBehaviour
 {
-    public static GameMaster instance { get; private set; }
+    public static GameMaster Instance { get; private set; }
 
+    [SerializeField]
+    private Camera mainCamera;
+    
     [SerializeField]
     private cameraLimits cameraLimits;
 
@@ -28,6 +31,8 @@ public class GameMaster : MonoBehaviour
     private GameObject retryPanel;
     [SerializeField]
     private TextMeshProUGUI textHighestY;
+    [SerializeField]
+    private TextMeshProUGUI FPSCounter;
 
     [Header("Player")]
     [SerializeField]
@@ -35,6 +40,11 @@ public class GameMaster : MonoBehaviour
     private bool isAlive = true;
     [SerializeField] private float deathPositionOffset;
 
+    [SerializeField]
+    private GameObject mousePaw;
+
+    private GameObject mousePawInstance;
+    
     [Header("Camera rotation properties")]
     [SerializeField]
     private Transform cameraTr;
@@ -43,15 +53,20 @@ public class GameMaster : MonoBehaviour
     private float rotateDestinationZ = 0;
     private bool canRotate = false;
     private int cameraCooldown = 10;
+    
+    int m_frameCounter = 0;
+    float m_timeCounter = 0.0f;
+    float m_lastFramerate = 0.0f;
+    public float m_refreshTime = 0.5f;
 
     /// <summary>
     /// Makes this instance be the only one to exist in scene
     /// </summary>
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -61,23 +76,54 @@ public class GameMaster : MonoBehaviour
         //Resets the timeScale on Awake. This updates the timeScale after retrying the level.
         Time.timeScale = 1;
     }
-
-    private void Update()
-    {
-        HighestPosition();
-        RotateCamera();
-        CheckPlayerStatus();
-    }
-
+    
     /// <summary>
     /// Starts the Coroutine so that the cooldown of the camera's rotation works correctly
     /// </summary>
     private void Start()
     {
+        mousePawInstance = Instantiate(mousePaw);
+        mousePawInstance.SetActive(false);
+        mousePawInstance.transform.SetParent(retryPanel.transform);
         retryPanel.SetActive(false);
         StartCoroutine(CameraCooldown());
     }
 
+    private void Update()
+    {
+        HighestPosition();
+        ShowFPS();
+        CheckPlayerStatus();
+
+        if (Input.GetMouseButton(0))
+        {
+            mousePawInstance.transform.position = new Vector2(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y + 50);
+            mousePawInstance.SetActive(true);
+        }
+        else
+        {
+            mousePawInstance.SetActive(false);
+        }
+    }
+
+    private void ShowFPS()
+    {
+        if( m_timeCounter < m_refreshTime )
+        {
+            m_timeCounter += Time.deltaTime;
+            m_frameCounter++;
+        }
+        else
+        {
+            //This code will break if you set your m_refreshTime to 0, which makes no sense.
+            m_lastFramerate = (float)m_frameCounter/m_timeCounter;
+            m_frameCounter = 0;
+            m_timeCounter = 0.0f;
+        }
+
+        FPSCounter.text = "FPS: " + m_lastFramerate;
+    }
+    
     /// <summary>
     /// Function made to be accesible for the button. It loads the desired scene.
     /// Made to reload the scene when hitting the Retry button
@@ -160,27 +206,27 @@ public class GameMaster : MonoBehaviour
     /// <summary>
     /// Rotates the camera one direction or another.
     /// </summary>
-    public void RotateCamera()
-    {
-        if (canRotate)
-        {
-            //Smoothly transitions the camera from its actual rotation to the desired rotation
-            cameraTr.rotation = Quaternion.Slerp(cameraTr.rotation, Quaternion.Euler(0, 0, rotateDestinationZ), rotateSpeed * Time.deltaTime);
-
-            if (cameraTr.rotation.z <= -1)
-            {
-                canRotate = false;
-                rotateDestinationZ = 0;
-                StartCoroutine(CameraCooldown());
-            }
-            else if (cameraTr.rotation == Quaternion.Euler(0, 0, 0))
-            {
-                canRotate = false;
-                rotateDestinationZ = 180f;
-                StartCoroutine(CameraCooldown());
-            }
-        }
-    }
+    //public void RotateCamera()
+    //{
+    //    if (canRotate)
+    //    {
+    //        //Smoothly transitions the camera from its actual rotation to the desired rotation
+    //        cameraTr.rotation = Quaternion.Slerp(cameraTr.rotation, Quaternion.Euler(0, 0, rotateDestinationZ), rotateSpeed * Time.deltaTime);
+//
+    //        if (cameraTr.rotation.z <= -1)
+    //        {
+    //            canRotate = false;
+    //            rotateDestinationZ = 0;
+    //            StartCoroutine(CameraCooldown());
+    //        }
+    //        else if (cameraTr.rotation == Quaternion.Euler(0, 0, 0))
+    //        {
+    //            canRotate = false;
+    //            rotateDestinationZ = 180f;
+    //            StartCoroutine(CameraCooldown());
+    //        }
+    //    }
+    //}
 
     /// <summary>
     /// Cooldown for the camera. It waits the desired amount of seconds and then sets canRotate to true

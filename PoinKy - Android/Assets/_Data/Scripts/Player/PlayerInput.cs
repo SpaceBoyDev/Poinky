@@ -6,6 +6,16 @@ using TMPro;
 
 public class PlayerInput : MonoBehaviour
 {
+    private enum EPlayerState
+    {
+        OnGround,
+        Aiming,
+        Launched,
+        Falling
+    }
+    
+    [SerializeField] private EPlayerState playerState;
+    
     [Header("Player Components")]
     private Rigidbody2D rb;
     private Transform tr;
@@ -18,7 +28,7 @@ public class PlayerInput : MonoBehaviour
     private Vector2 jumpDirection;
     private float power = 10f;
     RaycastHit2D rayHit;
-    private bool isJumping = false;
+    [SerializeField] private bool isJumping = false;
     [SerializeField]
     LayerMask Floor;
     public Vector2 minPower;
@@ -44,7 +54,7 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         //It only calculates the jump if the number of jumps is more than 0
-        if (GameMaster.instance.numberOfJumps > 0)
+        if (GameMaster.Instance.numberOfJumps > 0)
         {
             CalculateJump();
         }
@@ -54,6 +64,28 @@ public class PlayerInput : MonoBehaviour
             FloorDetection();
         }
         //Paw when click
+        
+        UpdatePlayerState();
+    }
+
+    private void UpdatePlayerState()
+    {
+        if (rb.velocity.y == 0)
+        {
+            playerState = EPlayerState.OnGround;
+        }
+        else if (isJumping)
+        {
+            playerState = EPlayerState.Aiming;
+        }
+        else if (rb.velocity.y > 0)
+        {
+            playerState = EPlayerState.Launched;
+        }
+        else if (rb.velocity.y < -1)
+        {
+            playerState = EPlayerState.Falling;
+        }
     }
 
     /// <summary>
@@ -86,7 +118,7 @@ public class PlayerInput : MonoBehaviour
             Vector2 sliderValue = new Vector2(Mathf.Clamp(startPos.x - Camera.main.ScreenToWorldPoint(Input.mousePosition).x,minPower.x, maxPower.x), 
                 Mathf.Clamp(startPos.y - Camera.main.ScreenToWorldPoint(Input.mousePosition).y, minPower.y, maxPower.y));
 
-            GameMaster.instance.SliderUpdate(sliderValue.magnitude);
+            GameMaster.Instance.SliderUpdate(sliderValue.magnitude);
 
             Mathf.Clamp(startPos.y - finalPos.y, minPower.y, maxPower.y);
 
@@ -138,7 +170,7 @@ public class PlayerInput : MonoBehaviour
         rb.AddForce(force * power, ForceMode2D.Impulse);
 
         //Substracts a jump
-        GameMaster.instance.JumpUpdate(-1);
+        GameMaster.Instance.JumpUpdate(-1);
     }
 
     /// <summary>
@@ -162,11 +194,7 @@ public class PlayerInput : MonoBehaviour
         //If the raycast hits the floor, the jump is reseted
         if (rayHit.collider != null)
         {
-            GameMaster.instance.JumpReset();
-        }
-        else
-        {
-            print("NO Detectado");
+            GameMaster.Instance.JumpReset();
         }
     }
 }
