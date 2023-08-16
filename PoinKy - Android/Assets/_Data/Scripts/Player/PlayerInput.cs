@@ -27,7 +27,8 @@ public class PlayerInput : MonoBehaviour
 
     [Header("Jump Properties")]
     private Vector2 jumpDirection;
-    private float power = 10f;
+    public float power = 10f;
+    public Vector2 force;
     RaycastHit2D rayHit;
     [SerializeField] private bool isJumping = false;
     [SerializeField]
@@ -67,6 +68,7 @@ public class PlayerInput : MonoBehaviour
         //Paw when click
         
         UpdatePlayerState();
+
     }
 
     private void UpdatePlayerState()
@@ -116,12 +118,21 @@ public class PlayerInput : MonoBehaviour
 
             Debug.DrawLine(Camera.main.ScreenToWorldPoint(Input.mousePosition), startPos, Color.red);
 
-            Vector2 sliderValue = new Vector2(Mathf.Clamp(startPos.x - Camera.main.ScreenToWorldPoint(Input.mousePosition).x,minPower.x, maxPower.x), 
-                Mathf.Clamp(startPos.y - Camera.main.ScreenToWorldPoint(Input.mousePosition).y, minPower.y, maxPower.y));
+            //Vector2 sliderValue = new Vector2(Mathf.Clamp(startPos.x - Camera.main.ScreenToWorldPoint(Input.mousePosition).x,minPower.x, maxPower.x), 
+            //    Mathf.Clamp(startPos.y - Camera.main.ScreenToWorldPoint(Input.mousePosition).y, minPower.y, maxPower.y));
 
-            GameMaster.Instance.SliderUpdate(sliderValue.magnitude);
+            //GameMaster.Instance.SliderUpdate(sliderValue.magnitude);
 
             Mathf.Clamp(startPos.y - finalPos.y, minPower.y, maxPower.y);
+            finalPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+
+            jumpDirection = (startPos - finalPos).normalized;
+            
+            //force = new Vector2(Mathf.Clamp(startPos.x - finalPos.x, minPower.x, maxPower.x),
+            //    Mathf.Clamp(startPos.y - finalPos.y, minPower.y, maxPower.y));
+
+            force = jumpDirection;
 
             //If the right button is pressed when the player is jumping, it cancels the jump
             if(Input.GetMouseButtonDown(1))
@@ -138,7 +149,6 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && isJumping)
         {
             isJumping = false;
-            finalPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             
             Time.timeScale = 1;
 
@@ -165,8 +175,8 @@ public class PlayerInput : MonoBehaviour
 
 
         //Calculates the force and direction of the jump
-        Vector2 force = new Vector2(Mathf.Clamp(startPos.x - finalPos.x, minPower.x, maxPower.x),
-            Mathf.Clamp(startPos.y - finalPos.y, minPower.y, maxPower.y));
+        //force = new Vector2(Mathf.Clamp(startPos.x - finalPos.x, minPower.x, maxPower.x),
+        //    Mathf.Clamp(startPos.y - finalPos.y, minPower.y, maxPower.y));
 
         rb.AddForce(force * power, ForceMode2D.Impulse);
 
@@ -190,7 +200,7 @@ public class PlayerInput : MonoBehaviour
     {
         Debug.DrawRay(transform.position, Vector2.down, Color.blue);
 
-        rayHit = Physics2D.Raycast(transform.position, -Vector2.up, 0.7f, Floor);
+        rayHit = Physics2D.Raycast(transform.position, -Vector2.up, 0.8f, Floor);
 
         //If the raycast hits the floor, the jump is reseted
         if (rayHit.collider != null)

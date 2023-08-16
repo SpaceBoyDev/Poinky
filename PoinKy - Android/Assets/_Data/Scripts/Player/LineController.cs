@@ -2,24 +2,79 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LineController : MonoBehaviour
 {
-    public LineRenderer lineRenderer;
+    public PlayerInput playerInput;
+    
+    [FormerlySerializedAs("lineRenderer")] public LineRenderer dragLine;
 
-    public LineRenderer lineRenderer2;
+    [FormerlySerializedAs("lineRenderer2")] public LineRenderer playerTrajectory;
 
     private Vector2 endPos;
 
     public Transform center;
+
+    [SerializeField] private Vector2 playerTrajectoryOffset;
+
+    [Header("New Trajectory")] [SerializeField]
+    private int dotsNumber;
+
+    [SerializeField] private GameObject dotsParent;
+    [SerializeField] private GameObject dotPrefab;
+    [SerializeField] private float dotSpacing;
+    private Transform[] dotsList;
+    
+    private Vector2 pos;
+    private float timeStamp;
 
     /// <summary>
     /// Disables the lineRenderers so that they won't be displayed
     /// </summary>
     private void Start()
     {
-        lineRenderer.enabled = false; 
-        lineRenderer2.enabled= false;
+        dragLine.enabled = false; 
+        playerTrajectory.enabled= false;
+        
+        //NEW TRAJECTORY
+        Hide();
+        PrepareDots();
+    }
+
+    private void PrepareDots()
+    {
+        dotsList = new Transform[dotsNumber];
+
+        for (int i = 0; i < dotsNumber; i++)
+        {
+            dotsList[i] = Instantiate(dotPrefab, null).transform;
+            dotsList[i].parent = dotsParent.transform;
+        }
+    }
+
+    public void UpdateDots(Vector3 ballPos, Vector2 forceApplied)
+    {
+        timeStamp = dotSpacing;
+
+        for (int i = 0; i < dotsNumber; i++)
+        {
+            pos.x = (ballPos.x + forceApplied.x * timeStamp);
+            pos.y = (ballPos.y + forceApplied.y * timeStamp) - (Physics.gravity.magnitude * timeStamp * timeStamp) / 2f;
+
+            dotsList[i].position = pos;
+            timeStamp += dotSpacing;
+        }
+    }
+
+    private void Show()
+    {
+        dotsParent.SetActive(true);
+    }
+    
+    private void Hide()
+    {
+        dotsParent.SetActive(false);
     }
 
     /// <summary>
@@ -28,11 +83,11 @@ public class LineController : MonoBehaviour
     public void SetLine(Vector3 mousePosStart, Vector3 mousePosFinal)
     {
         //Drag line
-        lineRenderer.SetPosition(0, mousePosStart);
-        lineRenderer.SetPosition(1, mousePosFinal + new Vector3(0, 0, 10));
+        dragLine.SetPosition(0, mousePosStart);
+        dragLine.SetPosition(1, mousePosFinal + new Vector3(0, 0, 10));
 
         //Trayectory line
-        Vector3 mousePosStart2 = Vector3.zero;
+        Vector2 mousePosStart2 = Vector2.zero;
 
         float distanceX = (mousePosStart.x- mousePosFinal.x) + mousePosStart2.x;
         float distanceY = (mousePosStart.y- mousePosFinal.y) + mousePosStart2.y;
@@ -41,16 +96,21 @@ public class LineController : MonoBehaviour
         distanceX = Mathf.Clamp(distanceX, -1, 1);
         Vector3 mousePosFinal2 = new Vector3(distanceX, distanceY, 0);
 
-        lineRenderer2.SetPosition(0, mousePosStart2);
-        lineRenderer2.SetPosition(1, mousePosFinal2);
+        //playerTrajectory.SetPosition(0, mousePosStart2 + playerTrajectoryOffset);
+        //playerTrajectory.SetPosition(1, mousePosFinal2);
+        
+        //NEW TRAJECTORY
+        UpdateDots(transform.position, playerInput.force * playerInput.power);
+        
     }
 
     /// <summary>
     /// This function is accesible from other scripts and enables or disables the lineRenderers based on the given bool
     /// </summary>
-    public void SetLines(bool active)
+    public void SetLines(bool isActive)
     {
-        lineRenderer.enabled = active;
-        lineRenderer2.enabled = active;
+        dragLine.enabled = isActive;
+        //playerTrajectory.enabled = isActive;
+        dotsParent.SetActive(isActive);
     }
 }

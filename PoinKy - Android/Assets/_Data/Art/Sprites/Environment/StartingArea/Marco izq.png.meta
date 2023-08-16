@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 92e5285fbeb046842b0dc6d86e046917
+guid: 876b073d1ebd036479630508aec59d8d
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,12 +42,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 400
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -104,12 +104,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
-    compressionQuality: 50
+    compressionQuality: 100
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -138,70 +138,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Gatos_Buenos_0
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 534
-        width: 742
-        height: 690
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: efaa4605e885e944299b86aad1efe2db
-      internalID: -892477169
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gatos_Buenos_1
-      rect:
-        serializedVersion: 2
-        x: 824
-        y: 543
-        width: 435
-        height: 508
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 77293b6e5588c8a42b460e964c69e63b
-      internalID: -347466080
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gatos_Buenos_5
-      rect:
-        serializedVersion: 2
-        x: 1418
-        y: 583
-        width: 416
-        height: 483
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f61ff376a2bfa54fb752ba07fc9a910
-      internalID: 1042389722
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -212,25 +149,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      Gatos_Buenos_12: -388539364
-      Gatos_Buenos_2: -1437615566
-      Gatos_Buenos_11: 1697280788
-      Gatos_Buenos_7: -487645545
-      Gatos_Buenos_10: 1510617794
-      Gatos_Buenos_15: 1284407281
-      Gatos_Buenos_1: -347466080
-      Gatos_Buenos_6: 1404488416
-      Gatos_Buenos_4: -199456117
-      Gatos_Buenos_3: 1480241944
-      Gatos_Buenos_16: -553654268
-      Gatos_Buenos_9: -607723685
-      Gatos_Buenos_8: 82290251
-      Gatos_Buenos_13: -1332540456
-      Gatos_Buenos_17: 369177345
-      Gatos_Buenos_14: 2115258793
-      Gatos_Buenos_0: -892477169
-      Gatos_Buenos_5: 1042389722
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
