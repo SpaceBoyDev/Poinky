@@ -6,7 +6,7 @@ using TMPro;
 
 public class PlayerInput : MonoBehaviour
 {
-    private enum EPlayerState
+    public enum EPlayerState
     {
         OnGround,
         Aiming,
@@ -14,7 +14,8 @@ public class PlayerInput : MonoBehaviour
         Falling
     }
     
-    [SerializeField] private EPlayerState playerState;
+    [SerializeField] public EPlayerState playerState;
+    public EPlayerState GetPlayerState() { return playerState; }
     
     [Header("Player Components")]
     private Rigidbody2D rb;
@@ -70,7 +71,7 @@ public class PlayerInput : MonoBehaviour
 
     private void UpdatePlayerState()
     {
-        if (rb.velocity.y == 0)
+        if (rb.velocity.y == 0 && rayHit)
         {
             playerState = EPlayerState.OnGround;
         }

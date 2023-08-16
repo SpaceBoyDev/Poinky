@@ -228,9 +228,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.12, y: -0.06}
+  m_Offset: {x: 0.04, y: 0.18}
   serializedVersion: 2
-  m_Radius: 0.43
+  m_Radius: 0.55
 --- !u!114 &4017093160051338664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88e9cc6a9aee694184cca1e3fcd59c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerState: 0
+  isJumping: 0
   Floor:
     serializedVersion: 2
     m_Bits: 128
@@ -278,8 +280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b05085774d29f64da1addc399562055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 4017093160051338664}
   coolCatSprites:
   - {fileID: -347466080, guid: 92e5285fbeb046842b0dc6d86e046917, type: 3}
+  - {fileID: 1042389722, guid: 92e5285fbeb046842b0dc6d86e046917, type: 3}
   - {fileID: -892477169, guid: 92e5285fbeb046842b0dc6d86e046917, type: 3}
   sr: {fileID: 4017093160493819763}
   sprite: {fileID: 4017093160493819762}
@@ -546,8 +550,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4017093160493819765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.249, z: 0}
+  m_LocalScale: {x: 0.93282247, y: 0.93282247, z: 0.93282247}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4017093160051338660}
@@ -594,7 +598,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e3ae8bf77b05b3a428d475916a7b10c0, type: 3}
+  m_Sprite: {fileID: -347466080, guid: 92e5285fbeb046842b0dc6d86e046917, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

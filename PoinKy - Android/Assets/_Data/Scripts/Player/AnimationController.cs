@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
-    [SerializeField]
-    private Sprite[] coolCatSprites;
+    [SerializeField] PlayerInput playerInput;
 
+    [SerializeField]
+    private Sprite[] coolCatSprites; //0-> Idle
+                                     //1-> Aiming
+                                     //2-> Launched
+    
     private Rigidbody2D rb;
 
     [SerializeField]
@@ -15,8 +19,6 @@ public class AnimationController : MonoBehaviour
     [SerializeField]
     private Transform sprite;
     
-    
-
     public float rotateSpeed;
 
     /// <summary>
@@ -37,23 +39,35 @@ public class AnimationController : MonoBehaviour
     /// </summary>
     private void Animate()
     {
-        if(rb.velocity.x > 0 && rb.velocity.y < -1)
-        {
-            sr.flipX = false;
-            sr.sprite = coolCatSprites[1];
-            sprite.Rotate(Vector3.back * (rotateSpeed * Time.deltaTime));
-        }
-        else if (rb.velocity.x < 0)
-        {
-            sr.sprite = coolCatSprites[1];
-            sr.flipX= true;
-            sprite.Rotate(Vector3.forward * (rotateSpeed * Time.deltaTime));
-        }
-        else if (rb.velocity.x == 0)
-        {
-            sr.sprite = coolCatSprites[0];
-            sprite.rotation = new Quaternion(0,0,0,0);
-        }
+        sr.flipX = rb.velocity.x > 0;
 
+        switch (playerInput.playerState)
+        {
+            case PlayerInput.EPlayerState.OnGround:
+                sr.sprite = coolCatSprites[0];
+                sprite.rotation = new Quaternion(0, 0, 0, 0);
+                break;
+            case PlayerInput.EPlayerState.Aiming:
+                sr.sprite = coolCatSprites[1];
+                break;
+            case PlayerInput.EPlayerState.Launched:
+                sr.sprite = coolCatSprites[2];
+                sprite.rotation = new Quaternion(0, 0, 0, 0);
+                break;
+            case PlayerInput.EPlayerState.Falling:
+                sr.sprite = coolCatSprites[1];
+
+                if (rb.velocity.x < 0)
+                {
+                    sprite.Rotate(Vector3.forward * (rotateSpeed * Time.deltaTime));
+                }
+                else
+                { 
+                    sprite.Rotate(Vector3.back * (rotateSpeed * Time.deltaTime)); 
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
