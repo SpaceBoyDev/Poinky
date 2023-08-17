@@ -12,6 +12,8 @@ public class FollowPlayer : MonoBehaviour
     }
 
     [SerializeField] private EFollowType followType;
+    [SerializeField] private float offSetX = 0f;
+    [SerializeField] private float offSetY = 0f;
 
     // Update is called once per frame
     void Update()
@@ -19,13 +21,13 @@ public class FollowPlayer : MonoBehaviour
         switch (followType)
         {
             case EFollowType.FollowXAxis:
-                transform.position = new Vector3(GameMaster.Instance.player.transform.position.x, transform.position.y, transform.position.z);
+                transform.position = new Vector3(GameMaster.Instance.player.transform.position.x + offSetX, transform.position.y + offSetY, transform.position.z);
                 break;
             case EFollowType.FollowYAxis:
-                transform.position = new Vector3(transform.position.x, GameMaster.Instance.highestY, transform.position.z);
+                transform.position = new Vector3(transform.position.x + offSetX, GameMaster.Instance.highestY + offSetY, transform.position.z);
                 break;
             case EFollowType.FollowBothAxis:
-                transform.position = new Vector3(GameMaster.Instance.player.transform.position.x, GameMaster.Instance.highestY, transform.position.z);
+                transform.position = new Vector3(GameMaster.Instance.player.transform.position.x + offSetX, GameMaster.Instance.highestY + offSetY, transform.position.z);
                 break;
         }
     }

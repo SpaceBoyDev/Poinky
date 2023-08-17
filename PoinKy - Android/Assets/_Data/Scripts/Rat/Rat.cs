@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -8,18 +10,27 @@ using UnityEngine;
 /// </summary>
 public class Rat : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer birdSprite;
+    
     [SerializeField]
     private bool isMoving = false;
 
-    private float ratmaxX;
-    private float ratminX;
-    private float ratmaxY;
-    private float ratminY;
+    [SerializeField] private bool canChangeDirection = true;
 
-    private float ratSpeed;
+    [SerializeField] private float ratminX;
+    [SerializeField] private float ratmaxY;
+    [SerializeField] private float ratminY;
+    [SerializeField] private float ratmaxX;
+
+    [SerializeField] private float ratSpeed;
 
     private int ratDirectionY = 1;
     private int ratDirectionX = 1;
+
+    [SerializeField] private float lerpX;
+    [SerializeField] private float lerpY;
+
+    private Vector3 actualPos;
 
     /// <summary>
     /// Resets the isMoving bool to false so that all the properties are properly reseted
@@ -27,6 +38,8 @@ public class Rat : MonoBehaviour
     private void OnDisable()
     {
         isMoving= false;
+        lerpX = 0;
+        lerpY = 0;
     }
 
     private void Update()
@@ -57,15 +70,16 @@ public class Rat : MonoBehaviour
         ratDirectionY= 1;        
         ratDirectionX= 1;
 
-        if (ratmaxX - ratminX <= 1f && ratSpeed > 1f)
+        if (Mathf.Abs(ratmaxX - ratminX) <= 1f && ratSpeed > 1f)
         {
             ratDirectionX = 0;
         }
 
-        if (ratmaxY - ratminY <= 1f && ratSpeed > 1f)
+        if (Mathf.Abs(ratmaxY - ratminY) <= 1f && ratSpeed > 1f)
         {
             ratDirectionY = 0;
         }
+        
     }
 
     /// <summary>
@@ -73,37 +87,40 @@ public class Rat : MonoBehaviour
     /// </summary>
     public void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(ratDirectionX, ratDirectionY, 0), ratSpeed * Time.deltaTime);
+        lerpX += ratSpeed * Time.deltaTime * ratDirectionX;
+        lerpY += ratSpeed * Time.deltaTime * ratDirectionY;
+
+        actualPos.x = Mathf.Lerp(ratminX, ratmaxX, lerpX);
+        actualPos.y = Mathf.Lerp(ratminY, ratmaxY, lerpY);
+        actualPos.z = transform.position.z;
+
+        transform.position = actualPos;
 
         if (transform.position.y > ratmaxY || transform.position.y < ratminY)
         {
-          
-                ratDirectionY = ratDirectionY * -1;
-            
+            ratDirectionY *= -1;
         }
 
-        if (transform.position.x > ratmaxX || transform.position.x < ratminX)
+        if (lerpX <= 0)
         {
-           
-                ratDirectionX = ratDirectionX * -1;
-
-            
+            ratDirectionX = 1;
+        }
+        else if (lerpX >= 1)
+        {
+            ratDirectionX = -1;
+        }
+        
+        if (lerpY <= 0)
+        {
+            ratDirectionY = 1;
+        }
+        else if (lerpY >= 1)
+        {
+            ratDirectionY = -1;
         }
 
-        if (transform.position.x > ratmaxX +0.1)
-        {
-            ratDirectionX = 0;
-        }
-
-        //This flips the sprite on the X axis so that it matches the movement
-        if (ratDirectionX > 0)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().flipX = false;
-        }
+        birdSprite.flipX = ratDirectionX > 0;
+        
     }
 
     /// <summary>
@@ -114,6 +131,12 @@ public class Rat : MonoBehaviour
     {
             GameMaster.Instance.JumpUpdate(1);
             gameObject.SetActive(false);
+    }
+
+    private IEnumerator CooldownChangeDirection()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        canChangeDirection = true;
     }
 
 }

@@ -57,4 +57,9 @@ public class MainMenu : MonoBehaviour
         print("Exit game");
         Application.Quit();
     }
+    
+    public void HowToPlayButton()
+    {
+        
+    }
 }

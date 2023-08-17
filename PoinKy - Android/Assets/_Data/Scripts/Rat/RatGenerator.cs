@@ -13,9 +13,16 @@ public class RatGenerator : MonoBehaviour
     private float minY;
     private float maxX;
     private float minX;
+    
     private int directionY = 1;
     private int directionX = 1;
 
+    [SerializeField] private Vector2 maxXRandomRange;
+    [SerializeField] private Vector2 minXRandomRange;
+    
+    [SerializeField] private Vector2 maxYRandomRange;
+    [SerializeField] private Vector2 minYRandomRange;
+    
     public bool spawn;
 
     //This variable keeps track of the last Y position a bird was spawned.
@@ -38,12 +45,12 @@ public class RatGenerator : MonoBehaviour
     /// </summary>
     private void RatProperties()
     {
-        speed = Random.Range(0.4f, 3);
+        speed = Random.Range(0.4f, 2f);
 
-        maxY = lastPosY + Random.Range(-2, 2);
-        minY = lastPosY + Random.Range(-2, 2);
-        maxX = Random.Range(-3f, 6f);
-        minX = Random.Range(-6f, maxX);
+        maxY = lastPosY + Random.Range(maxYRandomRange.x, maxYRandomRange.y);
+        minY = lastPosY - Random.Range(minYRandomRange.x, minYRandomRange.y);
+        maxX = Random.Range(maxXRandomRange.x, maxXRandomRange.y);
+        minX = Random.Range(minXRandomRange.x, maxX);
     }
 
     /// <summary>

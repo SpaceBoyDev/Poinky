@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 5944cd0915c3b7140be52ef0ec8e5bfb
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Kirsty
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 9f5765a36f0215e40a7c972ac517d6c0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

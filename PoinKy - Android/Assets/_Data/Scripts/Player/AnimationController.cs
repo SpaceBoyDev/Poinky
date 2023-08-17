@@ -39,7 +39,6 @@ public class AnimationController : MonoBehaviour
     /// </summary>
     private void Animate()
     {
-        sr.flipX = rb.velocity.x > 0;
 
         switch (playerInput.playerState)
         {
@@ -49,14 +48,27 @@ public class AnimationController : MonoBehaviour
                 break;
             case PlayerInput.EPlayerState.Aiming:
                 sr.sprite = coolCatSprites[1];
+                sr.flipX = rb.velocity.x > 0;
+                
+                if (rb.velocity.x < 0)
+                {
+                    sprite.Rotate(Vector3.forward * (rotateSpeed * Time.deltaTime));
+                }
+                else
+                { 
+                    sprite.Rotate(Vector3.back * (rotateSpeed * Time.deltaTime)); 
+                }
+                
                 break;
             case PlayerInput.EPlayerState.Launched:
                 sr.sprite = coolCatSprites[2];
                 sprite.rotation = new Quaternion(0, 0, 0, 0);
+                sr.flipX = rb.velocity.x > 0;
                 break;
             case PlayerInput.EPlayerState.Falling:
                 sr.sprite = coolCatSprites[1];
-
+                sr.flipX = rb.velocity.x > 0;
+                
                 if (rb.velocity.x < 0)
                 {
                     sprite.Rotate(Vector3.forward * (rotateSpeed * Time.deltaTime));

@@ -74,7 +74,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e846461c636e7b54e83e3499dada3893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  birdSprite: {fileID: 6845692806143641834}
   isMoving: 0
+  canChangeDirection: 1
 --- !u!95 &8473904636121078385
 Animator:
   serializedVersion: 4
