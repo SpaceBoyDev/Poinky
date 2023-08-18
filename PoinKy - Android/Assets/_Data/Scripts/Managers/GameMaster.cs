@@ -14,6 +14,10 @@ public struct cameraLimits
 public class GameMaster : MonoBehaviour
 {
     public static GameMaster Instance { get; private set; }
+    
+    [SerializeField] private RatGenerator ratGenerator;
+    [SerializeField] private LevelManager levelManager;
+
 
     [SerializeField]
     private Camera mainCamera;
@@ -33,6 +37,9 @@ public class GameMaster : MonoBehaviour
     private TextMeshProUGUI textHighestY;
     [SerializeField]
     private TextMeshProUGUI FPSCounter;
+
+    [SerializeField] private bool autoRetry;
+    [SerializeField] private bool infiniteJumps;
 
     [Header("Player")]
     [SerializeField]
@@ -75,6 +82,11 @@ public class GameMaster : MonoBehaviour
 
         //Resets the timeScale on Awake. This updates the timeScale after retrying the level.
         Time.timeScale = 1;
+
+        SaveData saveData = SaveManager.LoadGameState();
+        
+        autoRetry = saveData.autoRetry;
+        infiniteJumps = saveData.infiniteJumps;
     }
     
     /// <summary>
@@ -103,6 +115,11 @@ public class GameMaster : MonoBehaviour
         else
         {
             mousePawInstance.SetActive(false);
+        }
+
+        if (infiniteJumps)
+        {
+            numberOfJumps = 9;
         }
     }
 
@@ -150,10 +167,29 @@ public class GameMaster : MonoBehaviour
     /// </summary>
     private void PlayerStatus()
     {
-        if (!isAlive)
+        SaveData saveData = SaveManager.LoadGameState();
+        if (!isAlive && autoRetry)
         {
+            if (highestY > saveData.bestScore)
+            {
+                saveData.bestScore = highestY;
+                SaveManager.SaveGameData(saveData);
+            }
+            Time.timeScale = 0;
+            isAlive = true;
+            SceneLoader.Instance.Load(1);
+            Destroy(this);
+        }
+        else if (!isAlive && !autoRetry)
+        {
+            if (highestY > saveData.bestScore)
+            {
+                saveData.bestScore = highestY;
+                SaveManager.SaveGameData(saveData);
+            }
+            
             //Sets the highest position reached, the panel and the buttons to be displayed
-            textHighestY.text = "Score: " + highestY;
+            textHighestY.text = "Score:\n" + highestY.ToString("F0") + "m.";
             player.SetActive(false);
             retryPanel.SetActive(true);
             //Stops time
@@ -204,31 +240,6 @@ public class GameMaster : MonoBehaviour
     }
 
     /// <summary>
-    /// Rotates the camera one direction or another.
-    /// </summary>
-    //public void RotateCamera()
-    //{
-    //    if (canRotate)
-    //    {
-    //        //Smoothly transitions the camera from its actual rotation to the desired rotation
-    //        cameraTr.rotation = Quaternion.Slerp(cameraTr.rotation, Quaternion.Euler(0, 0, rotateDestinationZ), rotateSpeed * Time.deltaTime);
-//
-    //        if (cameraTr.rotation.z <= -1)
-    //        {
-    //            canRotate = false;
-    //            rotateDestinationZ = 0;
-    //            StartCoroutine(CameraCooldown());
-    //        }
-    //        else if (cameraTr.rotation == Quaternion.Euler(0, 0, 0))
-    //        {
-    //            canRotate = false;
-    //            rotateDestinationZ = 180f;
-    //            StartCoroutine(CameraCooldown());
-    //        }
-    //    }
-    //}
-
-    /// <summary>
     /// Cooldown for the camera. It waits the desired amount of seconds and then sets canRotate to true
     /// </summary>
     private IEnumerator CameraCooldown()
@@ -243,6 +254,23 @@ public class GameMaster : MonoBehaviour
     public cameraLimits get_cameraLimits()
     {
         return cameraLimits;
+    }
+
+    private void ResetGameMaster()
+    {
+        numberOfJumps = 3;
+        highestY = 0;
+        isAlive = true;
+        player.transform.position = Vector3.zero;
+    }
+
+    public void ResetLevel()
+    {
+        ResetGameMaster();
+        PoolManager.instance.ResetPool();
+        ratGenerator.ResetGenerator();
+        levelManager.ResetLevelManager();
+        
     }
 }
 

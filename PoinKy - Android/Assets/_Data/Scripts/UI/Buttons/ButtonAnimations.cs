@@ -110,7 +110,6 @@ public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        print("exit button");
         transform.DOMove(startPosition, 0.3f, false).SetUpdate(true);
         //rectTransform.DOLocalMove(startPosition, 0.3f, false).SetUpdate(true).SetRelative(true);
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RatGenerator : MonoBehaviour
 {
+
     [SerializeField]
     private GameObject Rat;
 
@@ -76,6 +77,12 @@ public class RatGenerator : MonoBehaviour
             //Adds 3 so that the next bird will spawn above the last one.
             lastPosY = lastPosY + 3;
         }
+    }
+
+    public void ResetGenerator()
+    {
+        lastPosY = 3;
+        offsetY = 5;
     }
 
 }

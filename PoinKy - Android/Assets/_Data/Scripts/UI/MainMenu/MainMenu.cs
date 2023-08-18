@@ -3,11 +3,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+ using UnityEngine.UI;
+ using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
     private GameObject mousePaw;
+
+    [SerializeField] private Toggle autoRetryToggle;
+    [SerializeField] private Toggle infiniteJumpsToggle;
+    [SerializeField] private TextMeshProUGUI bestScoreText;
 
     private GameObject mousePawInstance;
     
@@ -19,6 +25,8 @@ public class MainMenu : MonoBehaviour
         Application.targetFrameRate = 60;
 
         Time.timeScale = 1;
+
+        LoadSettings();
     }
 
     private void Start()
@@ -46,20 +54,32 @@ public class MainMenu : MonoBehaviour
     /// </summary>
     public void PlayButton()
     {
-        SceneManager.LoadScene(1);
+        SceneLoader.Instance.Load(1);
     }
 
     /// <summary>
     /// Function made to be accesible for the button. It closes the application
     /// </summary>
-    public void ExitButton()
+    //public void ExitButton()
+    //{
+    //    print("Exit game");
+    //    Application.Quit();
+    //}
+
+    public void SaveSettings()
     {
-        print("Exit game");
-        Application.Quit();
+        SaveData saveData = new SaveData();
+        saveData.autoRetry = autoRetryToggle.isOn;
+        saveData.infiniteJumps = infiniteJumpsToggle.isOn;
+        SaveManager.SaveGameData(saveData);
     }
-    
-    public void HowToPlayButton()
+
+    public void LoadSettings()
     {
+        SaveData saveData = SaveManager.LoadGameState();
         
+        autoRetryToggle.isOn = saveData.autoRetry;
+        infiniteJumpsToggle.isOn = saveData.infiniteJumps;
+        bestScoreText.text = "Best Score:\n" + saveData.bestScore.ToString("F0") + "m.";
     }
 }

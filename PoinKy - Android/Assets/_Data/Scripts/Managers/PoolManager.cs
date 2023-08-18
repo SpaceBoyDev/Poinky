@@ -86,4 +86,13 @@ public class PoolManager : MonoBehaviour
         return obj;
 
     }
+
+    public void ResetPool()
+    {
+        for (int i = 0; i < objPool.Count; i++)
+        {
+            objPool[i].prefab.SetActive(false);
+            objPool[i].prefab.transform.position = Vector3.zero;
+        }
+    }
 }
