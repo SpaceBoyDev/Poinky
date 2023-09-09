@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class AnimationController : MonoBehaviour
 {
@@ -21,12 +22,15 @@ public class AnimationController : MonoBehaviour
     
     public float rotateSpeed;
 
+    private Tween playerStateTransition;
+
     /// <summary>
     /// Gets the Rigidbody2D component
     /// </summary>
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+       
     }
 
     private void Update()
@@ -81,5 +85,15 @@ public class AnimationController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void OnStateChange()
+    {
+        playerStateTransition.Kill();
+        sprite.transform.localScale = new Vector3(1.253947f, 1.253947f, 1.253947f);
+        playerStateTransition = sprite.DOScale(1.6f, 0.1f).SetEase(Ease.InSine).SetLoops(2, LoopType.Yoyo)
+                .SetUpdate(true);
+        
+        playerStateTransition.Play();
     }
 }

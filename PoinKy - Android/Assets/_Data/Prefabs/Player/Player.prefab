@@ -273,7 +273,7 @@ MonoBehaviour:
   playerTrajectory: {fileID: 4017093160613032480}
   center: {fileID: 4017093161184557372}
   playerTrajectoryOffset: {x: -0.1, y: 0.1}
-  dotsNumber: 30
+  dotsNumber: 50
   dotsParent: {fileID: 0}
   dotPrefab: {fileID: 7794569388419048544, guid: 5becee498e024bc40b288cdacff5413e, type: 3}
   dotSpacing: 0.08
@@ -377,7 +377,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!114 &4017093160421570396
 MonoBehaviour:
@@ -1282,7 +1282,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 11
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: -2.13, z: 0}
@@ -1294,7 +1294,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.20833397
+        value: 0.4070568
         inSlope: -0.12900193
         outSlope: -0.12900193
         tangentMode: 0
@@ -1315,10 +1315,10 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.5471698, g: 0, b: 0.4402681, a: 1}
-      key1: {r: 0.8679245, g: 0.038210433, b: 0.70198184, a: 0.27450982}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.92156863, g: 0.64705884, b: 0.6117647, a: 1}
+      key1: {r: 0.92156863, g: 0.64705884, b: 0.6117647, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 1}
+      key3: {r: 0, g: 0, b: 0, a: 0.27450982}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
@@ -1332,7 +1332,7 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
+      atime1: 46453
       atime2: 65535
       atime3: 65535
       atime4: 65535
@@ -1341,7 +1341,7 @@ LineRenderer:
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 10
     alignment: 0
@@ -1367,7 +1367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4017093161338762477
 RectTransform:
   m_ObjectHideFlags: 0

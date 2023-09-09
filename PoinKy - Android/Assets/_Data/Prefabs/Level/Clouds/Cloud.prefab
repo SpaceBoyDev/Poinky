@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8359876248386536912}
   - component: {fileID: 7579647929394259459}
   - component: {fileID: 6373742163636196022}
+  - component: {fileID: -5105278440897718586}
   m_Layer: 0
   m_Name: Cloud
   m_TagString: Untagged
@@ -158,8 +159,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  loopType: 0
-  loops: 1
+  loopType: 1
+  loops: -1
   id: 
   isRelative: 1
   isFrom: 0
@@ -169,7 +170,7 @@ MonoBehaviour:
   isActive: 1
   isValid: 1
   target: {fileID: 228119465669320759}
-  animationType: 1
+  animationType: 2
   targetType: 11
   forcedTargetType: 0
   autoPlay: 1
@@ -302,3 +303,15 @@ MonoBehaviour:
   optionalScrambleMode: 0
   optionalShakeRandomnessMode: 0
   optionalString: 
+--- !u!114 &-5105278440897718586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6323875705659448302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4de56e3b236a36b43ab752f03ca438b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -119,11 +119,21 @@ public class ButtonAnimations : MonoBehaviour, IPointerEnterHandler, IPointerExi
         if (GetComponent<Button>().interactable == true)
         {
             transform.DOScale(startScale + newScale, scaleDuration).SetUpdate(true);
+
+            if (GameMaster.Instance != null)
+            {
+                GameMaster.Instance.SetIsInputAllowed(false);
+            }
         }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         transform.DOScale(startScale, scaleDuration).SetUpdate(true).SetEase(Ease.InQuad);
+        
+        if (GameMaster.Instance != null)
+        {
+            GameMaster.Instance.SetIsInputAllowed(true);
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -13,8 +14,25 @@ public class PlayerInput : MonoBehaviour
         Launched,
         Falling
     }
+
+    [SerializeField] private AnimationController animController;
     
     [SerializeField] public EPlayerState playerState;
+
+    public EPlayerState State
+    {
+        //this is public and accessible, and should be used to change "State"
+        get { return playerState; }
+        set
+        {
+            if (value != playerState)
+            {
+                animController.OnStateChange();
+            }
+            playerState = value;
+        }
+    }
+
     public EPlayerState GetPlayerState() { return playerState; }
     
     [Header("Player Components")]
@@ -25,14 +43,15 @@ public class PlayerInput : MonoBehaviour
     private Vector2 startPos;
     private Vector2 finalPos;
 
+    [SerializeField] private Button pauseButton;
+
     [Header("Jump Properties")]
     private Vector2 jumpDirection;
     public float power = 10f;
     public Vector2 force;
     RaycastHit2D rayHit;
     [SerializeField] private bool isJumping = false;
-    [SerializeField]
-    LayerMask Floor;
+    [SerializeField] LayerMask Floor;
     public Vector2 minPower;
     public Vector2 maxPower;
     public bool rayDetect = true;
@@ -56,7 +75,7 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         //It only calculates the jump if the number of jumps is more than 0
-        if (GameMaster.Instance.numberOfJumps > 0)
+        if (GameMaster.Instance.numberOfJumps > 0 && GameMaster.Instance.GetIsInputAllowed())
         {
             CalculateJump();
         }
@@ -75,19 +94,19 @@ public class PlayerInput : MonoBehaviour
     {
         if (rb.velocity.y == 0 && rayHit)
         {
-            playerState = EPlayerState.OnGround;
+            State = EPlayerState.OnGround;
         }
         else if (isJumping)
         {
-            playerState = EPlayerState.Aiming;
+            State = EPlayerState.Aiming;
         }
         else if (rb.velocity.y > 0)
         {
-            playerState = EPlayerState.Launched;
+            State = EPlayerState.Launched;
         }
         else if (rb.velocity.y < -1)
         {
-            playerState = EPlayerState.Falling;
+            State = EPlayerState.Falling;
         }
     }
 
@@ -96,6 +115,7 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     private void CalculateJump()
     {
+        
         //Gets the mouse's start and final position when you click down and let go the button
         if (Input.GetMouseButtonDown(0) && !isJumping)
         {

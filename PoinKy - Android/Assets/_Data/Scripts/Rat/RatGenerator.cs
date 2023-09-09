@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RatGenerator : MonoBehaviour
 {
 
-    [SerializeField]
-    private GameObject Rat;
+    [FormerlySerializedAs("Rat")] [SerializeField]
+    private GameObject blueBird;
+    [SerializeField] private GameObject yellowBird;
 
     [Header("Rat Properties")]
     private float speed;
@@ -60,20 +62,33 @@ public class RatGenerator : MonoBehaviour
     /// </summary>
     private void SpawnRat()
     {
-        int numberInPool = PoolManager.instance.SearchPool(Rat);
+        int randomBird = Random.Range(1, 3);
+        int numberInPool;
+        switch (randomBird)
+        {
+            case 0:
+                numberInPool = PoolManager.instance.SearchPool(blueBird);
+                break;
+            case 1:
+                numberInPool = PoolManager.instance.SearchPool(yellowBird);
+                break;
+            default:
+                numberInPool = PoolManager.instance.SearchPool(blueBird);
+                break;
+        }
+        
+        GameObject bird = PoolManager.instance.GetPooledObject(numberInPool);
 
-        GameObject rat = PoolManager.instance.GetPooledObject(numberInPool);
-
-        if (rat != null)
+        if (bird != null)
         {
             //Creates new properties
             RatProperties();
             //Assigns them a position based on the properties
-            rat.transform.position = new Vector3(Random.Range(minX, maxX), lastPosY, 0f);
+            bird.transform.position = new Vector3(Random.Range(minX, maxX), lastPosY, 0f);
             //Enables the bird
-            rat.SetActive(true);
+            bird.SetActive(true);
             //Sends the bird the info to move
-            rat.GetComponent<Rat>().Info(maxX, minX, maxY, minY, speed, directionY, directionX, true);
+            bird.GetComponent<Rat>().Info(maxX, minX, maxY, minY, speed, directionY, directionX, true);
             //Adds 3 so that the next bird will spawn above the last one.
             lastPosY = lastPosY + 3;
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class FollowPlayer : MonoBehaviour
     [SerializeField] private EFollowType followType;
     [SerializeField] private float offSetX = 0f;
     [SerializeField] private float offSetY = 0f;
+    [SerializeField] private Transform objectToFollow;
+    
 
     // Update is called once per frame
     void Update()

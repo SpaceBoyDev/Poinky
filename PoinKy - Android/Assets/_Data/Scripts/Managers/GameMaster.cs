@@ -37,6 +37,8 @@ public class GameMaster : MonoBehaviour
     private TextMeshProUGUI textHighestY;
     [SerializeField]
     private TextMeshProUGUI FPSCounter;
+    [SerializeField]
+    private TextMeshProUGUI score;
 
     [SerializeField] private bool autoRetry;
     [SerializeField] private bool infiniteJumps;
@@ -46,20 +48,31 @@ public class GameMaster : MonoBehaviour
     public GameObject player;
     private bool isAlive = true;
     [SerializeField] private float deathPositionOffset;
+    [SerializeField] private bool isInputAllowed = true;
+
+    public bool GetIsInputAllowed()
+    {
+        return isInputAllowed;
+        
+    }
+    public void SetIsInputAllowed(bool value)
+    {
+        isInputAllowed = value; 
+    }
 
     [SerializeField]
     private GameObject mousePaw;
 
     private GameObject mousePawInstance;
     
-    [Header("Camera rotation properties")]
-    [SerializeField]
-    private Transform cameraTr;
-    public float highestY = 0;
-    private float rotateSpeed = 15f;
-    private float rotateDestinationZ = 0;
-    private bool canRotate = false;
-    private int cameraCooldown = 10;
+   //[Header("Camera rotation properties")]
+   //[SerializeField]
+   //private Transform cameraTr;
+   public float highestY = 0;
+   //private float rotateSpeed = 15f;
+   //private float rotateDestinationZ = 0;
+   //private bool canRotate = false;
+   //private int cameraCooldown = 10;
     
     int m_frameCounter = 0;
     float m_timeCounter = 0.0f;
@@ -98,7 +111,7 @@ public class GameMaster : MonoBehaviour
         mousePawInstance.SetActive(false);
         mousePawInstance.transform.SetParent(retryPanel.transform);
         retryPanel.SetActive(false);
-        StartCoroutine(CameraCooldown());
+        //StartCoroutine(CameraCooldown());
     }
 
     private void Update()
@@ -121,6 +134,8 @@ public class GameMaster : MonoBehaviour
         {
             numberOfJumps = 9;
         }
+
+        score.text = highestY.ToString("F0") + "m.";
     }
 
     private void ShowFPS()
@@ -242,11 +257,11 @@ public class GameMaster : MonoBehaviour
     /// <summary>
     /// Cooldown for the camera. It waits the desired amount of seconds and then sets canRotate to true
     /// </summary>
-    private IEnumerator CameraCooldown()
-    {
-        yield return new WaitForSecondsRealtime(cameraCooldown);
-        canRotate = true;
-    }
+    //private IEnumerator CameraCooldown()
+    //{
+    //    yield return new WaitForSecondsRealtime(cameraCooldown);
+    //    canRotate = true;
+    //}
 
     /// <summary>
     /// Function made so that other scripts can get the cameraLimits values

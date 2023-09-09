@@ -3461,65 +3461,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 880030249}
     m_Modifications:
     - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: newScale.x
-      value: -0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: newScale.y
-      value: -0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: newScale.z
-      value: -0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
       propertyPath: parentMenu
       value: 
       objectReference: {fileID: 880030248}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: newRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: scaleDuration
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: rotationDuration
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: shadowPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895141, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: setStartRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895192, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -875428996, guid: 4d3d169d259251442b13f4de957a92c3, type: 3}
-    - target: {fileID: 1715391941069895192, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: m_UseSpriteMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895192, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: m_PreserveAspect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895193, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: m_Navigation.m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1715391941069895193, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: m_SpriteState.m_PressedSprite
-      value: 
-      objectReference: {fileID: -1932497433, guid: 4d3d169d259251442b13f4de957a92c3, type: 3}
-    - target: {fileID: 1715391941069895193, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
-      propertyPath: m_SpriteState.m_SelectedSprite
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1715391941069895193, guid: 84aabca8e55b3c14cacb79f263d16264, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
